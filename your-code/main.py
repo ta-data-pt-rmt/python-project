@@ -4,6 +4,18 @@
 # In[1]:
 
 
+# import libraries
+from pathlib import Path
+
+import playsound as ps
+from playsound import playsound
+
+from PIL import Image
+
+
+# In[2]:
+
+
 # define rooms and items
 
 couch = {
@@ -105,8 +117,22 @@ living_room = {
     "name": "Living Room",
     "type": "room",
 }
+"""
+#Questions & answers
 
+question_a = {
+    "name": "Question a"
+    "type": "question"
+    "correct answer": a
+    "origin": key_a
+}
 
+answers_a = {
+    "a": "Spanish"
+    "b": "Italian"
+    "c": "French"
+}
+"""
 #all_rooms = [game_room, bedroom_1, bedroom_2, living_room, outside]
 
 #all_doors = [door_a, door_b, door_c, door_d]
@@ -127,6 +153,11 @@ object_relations = {
     "door b": [bedroom_1, bedroom_2],
     "door c": [bedroom_1, living_room],
     "door d": [living_room, outside]
+    
+    #Questions
+    #"Question a": [answers_a],
+    #"key a": [question_a]
+    
 }
 
 # define game state. Do not directly change this dict. 
@@ -144,7 +175,7 @@ INIT_GAME_STATE = {
 }
 
 
-# In[2]:
+# In[3]:
 
 
 #Creating the Multi Language dictionaries
@@ -239,6 +270,51 @@ lang_texts_es['key for door b'] = 'llave para puerta b'
 lang_texts_es['key for door c'] = 'llave para puerta c'
 lang_texts_es['key for door d'] = 'llave para puerta d'
 
+#Italian dictionary
+
+lang_texts_it = {}
+lang_texts_it['yes'] = 'si'
+lang_texts_it['no'] = 'no'
+lang_texts_it['explore'] = 'esplorare'
+lang_texts_it['examine'] = 'esaminare'
+lang_texts_it['integer'] = 'Per favore, digita solo il numero delle opzioni disponibili'
+lang_texts_it['intro'] = 'Ci si sveglia su un divano e ci si ritrova in una strana casa senza finestre in cui non si è mai stati prima. Non ricordate perché siete qui e cosa è successo prima. Sentite che un pericolo sconosciuto si sta avvicinando e dovete uscire dalla casa, ORA!'
+lang_texts_it['escape'] = 'Congratulazioni! Sei riuscito a fuggire dalla stanza!'
+lang_texts_it['in'] = 'Ora siete nella '
+lang_texts_it['next_room'] = 'Vuoi andare nella prossima stanza?'
+lang_texts_it['examine_do'] = 'Cosa desideri esaminare?'
+lang_texts_it['repeat'] = "Non sono sicuro di cosa intendi. Scegli un'opzione valida."
+lang_texts_it['explore_do'] = 'Esplorate la stanza. Questo è '
+lang_texts_it['find'] = 'Tu trovi '
+lang_texts_it['you_examine'] = 'Tu esamini '
+lang_texts_it['unlock'] = 'La apri con una chiave che possiedi.'
+lang_texts_it['locked'] = "È chiusa a chiave ma non avete la chiave."
+lang_texts_it['nothing'] = "Non c'è nulla di interessante"
+lang_texts_it['none'] = "L'oggetto richiesto non si trova nella stanza attuale."
+lang_texts_it['option'] = 'Opzione:'
+lang_texts_it['select'] = 'Seleziona una opzione:'
+lang_texts_it['selected'] = 'Opzione selezionata: '
+lang_texts_it['no_valid'] = ' Selezionare un numero valido'
+lang_texts_it['couch'] = 'Divano'
+lang_texts_it['piano'] = 'Pianoforte'
+lang_texts_it['door a'] = 'porta a'
+lang_texts_it['Queen Bed'] = 'Letto matrimoniale'
+lang_texts_it['door b'] = 'porta b'
+lang_texts_it['door c'] = 'porta c'
+lang_texts_it['Double Bed'] = 'Letto doppio'
+lang_texts_it['Dresser'] = 'Comò'
+lang_texts_it['Dining Table'] = 'Tavolo da pranzo'
+lang_texts_it['door d'] = 'porta d'
+lang_texts_it['game room'] = 'Sala giochi'
+lang_texts_it['Bed Room 1'] = 'Camera da letto 1'
+lang_texts_it['Bed Room 2'] = 'Camera da letto 2'
+lang_texts_it['Living Room'] = 'Soggiorno'
+lang_texts_it['outside'] = 'Fuori'
+lang_texts_it['key for door a'] = 'chiave per porta a'
+lang_texts_it['key for door b'] = 'chiave per porta b'
+lang_texts_it['key for door c'] = 'chiave per porta c'
+lang_texts_it['key for door d'] = 'chiave per porta d'
+
 #Portuguese dictionary
 
 lang_texts_pt = {}
@@ -291,10 +367,70 @@ lang_texts_pt['key for door d'] = 'chave para porta d'
 lang_game = {}
 lang_game['en'] = ['english',lang_texts_en]
 lang_game['es'] = ['spanish',lang_texts_es]
+lang_game['it'] = ['italian',lang_texts_it]
 lang_game['pt'] = ['portuguese',lang_texts_pt]
 
 
-# In[3]:
+# In[4]:
+
+
+'''
+def ghost_quiz(key)
+
+    #Depending on the key, show a question. This can be done with dictionaries
+    #hard_scape change to here:
+    """
+    INIT_GAME_STATE = {
+        "language": 'en',
+        "hard_scape": 0
+        "current_room": game_room,
+        "keys_collected": [],
+        "target_room": outside
+        }
+    """
+    #and then use game_state["hard_scape"] instead of hard_scape
+    
+    hard_scape = 0
+
+    Question_a = print("What nationality was Columbus believed to be? a - Spanish b - Italian c - French")
+    Answer = input().lower()
+    if Answer == "a":
+      True
+      print("Right... Keep looking for the exit...")
+    else:
+      print("You wont scape... ever")
+      hard_scape += 1
+
+    Question_b = print("What is the most consumed food in the world? a - Potato b - Rice c - Bread")
+    Answer = input().lower()
+    if Answer == "b":
+      True
+      print("You can go... for now...")
+    else:
+      print("Nice try...")
+      hard_scape += 1
+
+    Question_c = print("what is the largest mammal in the world? a - Whale b - Elephant c - Rhinoceros")
+    Answer = input().lower()
+    if Answer =="a":
+      True
+      print("True...Who would thing a mammal can live underwater?...")
+    else:
+      print("You will not be allowed to go anywhere...")
+      hard_scape += 1
+
+    Question_d = print("What weighs more than 1 kg of water or 1kg of iron? a - water b - iron")
+    Answer = input().lower()
+    if Answer =="c":
+      True
+      print("Clever...")
+    else:
+      print("Hehehehe...")
+      hard_scape += 1
+'''
+
+
+# In[5]:
 
 
 def selectFromDict(options, name=''):
@@ -331,7 +467,47 @@ def selectFromDict(options, name=''):
     return selected
 
 
-# In[4]:
+# In[6]:
+
+
+def play_sound(sound):
+    """
+    Play the sound selected
+    """
+    
+    if (sound == 'piano'):
+        playsound(Path("sounds/piano_sound_effect.mp3"))
+    elif (sound == 'victory'):
+        playsound(Path("sounds/Victory_sound.mp3"))
+    elif (sound == 'fail'): 
+        playsound(Path("sounds/fail_sound_effect.mp3"))
+
+
+# In[7]:
+
+
+def show_room(room):
+    """
+    Show an image related to the room
+    """
+    
+    if (room["name"].lower() == 'game room'):        
+        img = Image.open(Path('images/Game_room.png'))
+        img.show()
+    elif (room["name"].lower() == 'bed room 1'):
+        img = Image.open(r"Path('images/Bedroom_1.png')")
+        img.show()
+    elif (room["name"].lower() == 'bed room 2'):
+        img = Image.open(r"Path('images/Bedroom_2.png')")
+        img.show()
+    elif (room["name"].lower() == 'living room'):
+        img = Image.open(r"Path('images/Living_room.png')")
+        img.show()
+    
+           
+
+
+# In[8]:
 
 
 def linebreak():
@@ -344,8 +520,7 @@ def start_game():
     """
     Start the game
     """
-        
-        
+                
     #game language selection
     
     game_state['language'] = (selectFromDict({value[0]:key for key,value in lang_game.items()},'Which language do you want to use?'))    
@@ -359,10 +534,9 @@ def start_game():
     while game_state['current_room'] != game_state['target_room']:
         play_room(game_state["current_room"])            
     
-    #print(game_state["current_room"])
-    #print(game_state["target_room"])
     if(game_state["current_room"] == game_state["target_room"]):
         print(lang_game[game_state["language"]][1]['escape'])    
+        play_sound('victory')
     
 def play_room(room):
     """
@@ -378,6 +552,9 @@ def play_room(room):
     #else:   
     while game_state['current_room'] != game_state['target_room']:
         print("\n")
+        
+        show_room(room)
+        
         print(lang_game[game_state["language"]][1]['in'] + lang_game[game_state["language"]][1][room["name"]]) 
 
         intended_action = selectFromDict({lang_game[game_state["language"]][1]['examine']:'examine',lang_game[game_state["language"]][1]['explore']:'explore'})
@@ -454,6 +631,9 @@ def examine_item(item_name):
                 else:                                        
                     output += lang_game[game_state["language"]][1]['locked']
             else:
+                if(item["name"] == 'piano'):
+                    play_sound('piano')
+                    
                 if(item["name"] in object_relations and len(object_relations[item["name"]])>0):
                     item_found = object_relations[item["name"]].pop()
                     game_state["keys_collected"].append(item_found)
@@ -478,7 +658,7 @@ def examine_item(item_name):
         return current_room
 
 
-# In[5]:
+# In[ ]:
 
 
 game_state = INIT_GAME_STATE.copy()
