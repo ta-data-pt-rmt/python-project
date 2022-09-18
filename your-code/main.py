@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 # import libraries
 from pathlib import Path
+import random
 
 import playsound as ps
 from playsound import playsound
@@ -13,8 +14,58 @@ from playsound import playsound
 from PIL import Image
 
 
-# In[2]:
+# In[ ]:
 
+
+#Questions & answers
+
+question_a = {
+    "name": "Question a",
+    "type": "question",
+    "correct answer": "a"
+}
+
+answers_a = {
+    "a": "Spanish",
+    "b": "Italian",
+    "c": "French"
+}
+
+question_b = {
+    "name": "Question b",
+    "type": "question",
+    "correct answer": "b"
+}
+
+answers_b = {
+    "a": "Potato",
+    "b": "Rice",
+    "c": "Bread"
+}
+
+question_c = {
+    "name": "Question c",
+    "type": "question",
+    "correct answer": "a"
+}
+
+answers_c = {
+    "a": "Whale",
+    "b": "Elephant",
+    "c": "Rhinoceros"
+}
+
+question_d = {
+    "name": "Question d",
+    "type": "question",
+    "correct answer": "c"
+}
+
+answers_d = {
+    "a": "Water",
+    "b": "Iron",
+    "c": ""
+}
 
 # define rooms and items
 
@@ -32,6 +83,7 @@ key_a = {
     "name": "key for door a",
     "type": "key",
     "target": door_a,
+    "question": question_a
 }
 
 piano = {
@@ -65,22 +117,51 @@ door_d = {
     "type": "door",
 }
 
+
+door_blue = {
+    "name": "door blue",
+    "type": "door",
+}
+
+door_pink = {
+    "name": "door pink",
+    "type": "door",
+}
+
+door_red = {
+    "name": "door red",
+    "type": "door",
+}
+
+door_black = {
+    "name": "door black",
+    "type": "door",
+}
+
+door_white = {
+    "name": "door white",
+    "type": "door",
+}
+
 key_b = {
     "name": "key for door b",
     "type": "key",
     "target": door_b,
+    "question": question_b
 }
 
 key_c = {
     "name": "key for door c",
     "type": "key",
     "target": door_c,
+    "question": question_c
 }
 
 key_d = {
     "name": "key for door d",
     "type": "key",
     "target": door_d,
+    "question": question_d
 }
 
 queen_bed = {
@@ -117,22 +198,12 @@ living_room = {
     "name": "Living Room",
     "type": "room",
 }
-"""
-#Questions & answers
 
-question_a = {
-    "name": "Question a"
-    "type": "question"
-    "correct answer": a
-    "origin": key_a
+ghost_room = {
+    "name": "Ghost Room",
+    "type": "room"
 }
 
-answers_a = {
-    "a": "Spanish"
-    "b": "Italian"
-    "c": "French"
-}
-"""
 #all_rooms = [game_room, bedroom_1, bedroom_2, living_room, outside]
 
 #all_doors = [door_a, door_b, door_c, door_d]
@@ -142,22 +213,26 @@ answers_a = {
 object_relations = {
     "game room": [couch, piano, door_a],
     "piano": [key_a],
-    "Bed Room 1": [queen_bed, door_b, door_c],
+    "Bed Room 1": [queen_bed, door_a, door_b, door_c],
     "Queen Bed": [key_b],
     "Bed Room 2": [double_bed, dresser, door_b],
     "Double Bed": [key_c],
     "Dresser": [key_d],
-    "Living Room": [dining_table, door_d],
+    "Living Room": [dining_table, door_c, door_d],
+    "Ghost Room": [door_blue, door_pink, door_red, door_black, door_white],
     "outside": [door_d],
     "door a": [game_room, bedroom_1],
     "door b": [bedroom_1, bedroom_2],
     "door c": [bedroom_1, living_room],
-    "door d": [living_room, outside]
-    
-    #Questions
-    #"Question a": [answers_a],
-    #"key a": [question_a]
-    
+    "door d": [living_room, outside],        
+    "key a": [question_a],
+    "Question a": [answers_a],
+    "key b": [question_b],
+    "Question b": [answers_b],
+    "key c": [question_c],
+    "Question c": [answers_c],
+    "key d": [question_d],
+    "Question d": [answers_d]    
 }
 
 # define game state. Do not directly change this dict. 
@@ -165,17 +240,21 @@ object_relations = {
 # dict and use the copy to store gameplay state. This 
 # way you can replay the game multiple times.
 
-# Added language
+# Added language, hard_scape and escape door
 
 INIT_GAME_STATE = {
     "language": 'en',
     "current_room": game_room,
     "keys_collected": [],
-    "target_room": outside
+    "hard_scape": 0,
+    "target_room": outside,
+    "escape door": door_blue
 }
 
+    
 
-# In[3]:
+
+# In[ ]:
 
 
 #Creating the Multi Language dictionaries
@@ -189,7 +268,7 @@ lang_texts_en['explore'] = 'explore'
 lang_texts_en['examine'] = 'examine'
 lang_texts_en['integer'] = 'Please type only the number of the options'
 lang_texts_en['intro'] = '''You wake up on a couch and find yourself in a strange house with no windows which you have never been to before. You don't remember why you are here and what had happened before. You feel some unknown danger is approaching and you must get out of the house, NOW!'''
-lang_texts_en['escape'] = 'Congrats! You escaped the room!'
+lang_texts_en['escape'] = 'RUN! And do not come back again!\n\nCongrats! You escaped the room!'
 lang_texts_en['in'] = 'You are now in '
 lang_texts_en['next_room'] = 'Do you want to go to the next room?'
 lang_texts_en['examine_do'] = 'What would you like to examine?'
@@ -224,6 +303,34 @@ lang_texts_en['key for door a'] = 'key for door a'
 lang_texts_en['key for door b'] = 'key for door b'
 lang_texts_en['key for door c'] = 'key for door c'
 lang_texts_en['key for door d'] = 'key for door d'
+lang_texts_en['Question a'] = 'What nationality was Columbus believed to be?'
+lang_texts_en['Question b'] = 'What is the most consumed food in the world?'
+lang_texts_en['Question c'] = 'What is the largest mammal in the world?'
+lang_texts_en['Question d'] = 'What weighs more than 1 kg of water or 1kg of iron?'
+lang_texts_en['door blue'] = 'Door Blue'
+lang_texts_en['door pink'] = 'Door Pink'
+lang_texts_en['door red'] = 'Door Red'
+lang_texts_en['door black'] = 'Door Black'
+lang_texts_en['door white'] = 'Door White'
+lang_texts_en['ghost quiz'] = 'Ghost Quiz'
+lang_texts_en['correct'] = 'Right... Keep looking for the exit...'
+lang_texts_en['failed'] = 'You wont scape... ever'
+lang_texts_en['choose_door'] = 'As you failed in your answers... it is time to choose a door.'
+lang_texts_en['correct_door'] = 'Congratulations! You can live for one day more'
+lang_texts_en['wrong_door'] = 'Time to stay here... FOREVER!'
+lang_texts_en['Spanish'] = 'Spanish'
+lang_texts_en['Italian'] = 'Italian'
+lang_texts_en['French'] = 'French'
+lang_texts_en['Potato'] = 'Potato'
+lang_texts_en['Rice'] = 'Rice'
+lang_texts_en['Bread'] = 'Bread'
+lang_texts_en['Whale'] = 'Whale'
+lang_texts_en['Elephant'] = 'Elephant'
+lang_texts_en['Rhinoceros'] = 'Rhinoceros'
+lang_texts_en['Water'] = 'Water'
+lang_texts_en['Iron'] = 'Iron'
+lang_texts_en[''] = ''
+
 
 #Spanish dictionary
 
@@ -234,7 +341,7 @@ lang_texts_es['explore'] = 'explorar'
 lang_texts_es['examine'] = 'examinar'
 lang_texts_es['integer'] = 'Por favor teclea solamente números de las opciones'
 lang_texts_es['intro'] = 'Te despiertas en un sofá y te encuentras en una casa extraña sin ventanas en la que nunca has estado antes. No recuerdas por qué estás aquí y qué había sucedido antes. Sientes que se acerca un peligro desconocido y debes salir de la casa, ¡YA!'
-lang_texts_es['escape'] = '¡Felicidades! ¡Has escapado!'
+lang_texts_es['escape'] = '¡CORRE! ¡y no vuelvas más!\n\n¡Felicidades! ¡Has escapado!'
 lang_texts_es['in'] = 'Estás en '
 lang_texts_es['next_room'] = '¿Quieres ir a la siguiente habitación?'
 lang_texts_es['examine_do'] = '¿Qué te gustaría examinar?'
@@ -269,6 +376,33 @@ lang_texts_es['key for door a'] = 'llave para puerta a'
 lang_texts_es['key for door b'] = 'llave para puerta b'
 lang_texts_es['key for door c'] = 'llave para puerta c'
 lang_texts_es['key for door d'] = 'llave para puerta d'
+lang_texts_es['Question a'] = '¿De qué nacionalidad se creía que era Colón?'
+lang_texts_es['Question b'] = '¿Cuál es el alimento más consumido en el mundo?'
+lang_texts_es['Question c'] = '¿Cuál es el mamífero más grande del mundo?'
+lang_texts_es['Question d'] = '¿Qué pesa más, 1 kg de agua o 1 kg de hierro?'
+lang_texts_es['door blue'] = 'Puerta Azul'
+lang_texts_es['door pink'] = 'Puerta Rosa'
+lang_texts_es['door red'] = 'Puerta Roja'
+lang_texts_es['door black'] = 'Puerta Negra'
+lang_texts_es['door white'] = 'Puerta Blanca'
+lang_texts_es['ghost quiz'] = 'Acertijo Fantasma'
+lang_texts_es['correct'] = 'Bien... Sigue buscando la salida...'
+lang_texts_es['failed'] = 'Tú no escaparás... nunca'
+lang_texts_es['choose_door'] = 'Como fallaste en tus respuestas... es hora de elegir una puerta.'
+lang_texts_es['correct_door'] = '¡Felicidades! Puedes vivir un día más'
+lang_texts_es['wrong_door'] = 'Es hora de quedarse aquí... ¡PARA SIEMPRE!'
+lang_texts_es['Spanish'] = 'Española'
+lang_texts_es['Italian'] = 'Italiana'
+lang_texts_es['French'] = 'Francesa'
+lang_texts_es['Potato'] = 'Patata'
+lang_texts_es['Rice'] = 'Arroz'
+lang_texts_es['Bread'] = 'Pan'
+lang_texts_es['Whale'] = 'Ballena'
+lang_texts_es['Elephant'] = 'Elefante'
+lang_texts_es['Rhinoceros'] = 'Rinoceronte'
+lang_texts_es['Water'] = 'Agua'
+lang_texts_es['Iron'] = 'Hierro'
+lang_texts_es[''] = ''
 
 #Italian dictionary
 
@@ -279,7 +413,7 @@ lang_texts_it['explore'] = 'esplorare'
 lang_texts_it['examine'] = 'esaminare'
 lang_texts_it['integer'] = 'Per favore, digita solo il numero delle opzioni disponibili'
 lang_texts_it['intro'] = 'Ci si sveglia su un divano e ci si ritrova in una strana casa senza finestre in cui non si è mai stati prima. Non ricordate perché siete qui e cosa è successo prima. Sentite che un pericolo sconosciuto si sta avvicinando e dovete uscire dalla casa, ORA!'
-lang_texts_it['escape'] = 'Congratulazioni! Sei riuscito a fuggire dalla stanza!'
+lang_texts_it['escape'] = 'CORRERE! E non tornare più!\n\nCongratulazioni! Sei riuscito a fuggire dalla stanza!'
 lang_texts_it['in'] = 'Ora siete nella '
 lang_texts_it['next_room'] = 'Vuoi andare nella prossima stanza?'
 lang_texts_it['examine_do'] = 'Cosa desideri esaminare?'
@@ -314,6 +448,33 @@ lang_texts_it['key for door a'] = 'chiave per porta a'
 lang_texts_it['key for door b'] = 'chiave per porta b'
 lang_texts_it['key for door c'] = 'chiave per porta c'
 lang_texts_it['key for door d'] = 'chiave per porta d'
+lang_texts_it['Question a'] = '¿De qué nacionalidad se creía que era Colón?'
+lang_texts_it['Question b'] = '¿Cuál es el alimento más consumido en el mundo?'
+lang_texts_it['Question c'] = '¿Cuál es el mamífero más grande del mundo?'
+lang_texts_it['Question d'] = '¿Qué pesa más, 1 kg de agua o 1 kg de hierro?'
+lang_texts_it['door blue'] = 'Porta Blu'
+lang_texts_it['door pink'] = 'Porta Rosa'
+lang_texts_it['door red'] = 'Porta Rossa'
+lang_texts_it['door black'] = 'Porta Nera'
+lang_texts_it['door white'] = 'Porta Bianca'
+lang_texts_it['ghost quiz'] = 'Acertijo Fantasma'
+lang_texts_it['correct'] = 'Bien... Sigue buscando la salida...'
+lang_texts_it['failed'] = 'Tú no escaparás... nunca'
+lang_texts_it['choose_door'] = 'Como fallaste en tus respuestas... es hora de elegir una puerta.'
+lang_texts_it['correct_door'] = '¡Felicidades! Puedes vivir un día más'
+lang_texts_it['wrong_door'] = 'Es hora de quedarse aquí... ¡PARA SIEMPRE!'
+lang_texts_it['Spanish'] = 'Spagnolo'
+lang_texts_it['Italian'] = 'Italiano'
+lang_texts_it['French'] = 'Francese'
+lang_texts_it['Potato'] = 'Patata'
+lang_texts_it['Rice'] = 'Riso'
+lang_texts_it['Bread'] = 'Pane'
+lang_texts_it['Whale'] = 'Balena'
+lang_texts_it['Elephant'] = 'Elefante'
+lang_texts_it['Rhinoceros'] = 'Rinoceronte'
+lang_texts_it['Water'] = 'Acqua'
+lang_texts_it['Iron'] = 'Ferro'
+lang_texts_it[''] = ''
 
 #Portuguese dictionary
 
@@ -324,7 +485,7 @@ lang_texts_pt['explore'] = 'explorar'
 lang_texts_pt['examine'] = 'examinar'
 lang_texts_pt['integer'] = 'Por favor, digite apenas o número das opções'
 lang_texts_pt['intro'] = 'Você acorda em um sofá e se encontra em uma casa estranha, sem janelas, na qual nunca esteve antes. Você não se lembra por que está aqui e o que aconteceu antes. Você sente que algum perigo desconhecido está se aproximando e você deve sair de casa, AGORA!'
-lang_texts_pt['escape'] = 'Parabéns! Você escapou do quarto!'
+lang_texts_pt['escape'] = 'CORRE! E não volte mais!\n\nParabéns! Você escapou do quarto!'
 lang_texts_pt['in'] = 'Você está agora em '
 lang_texts_pt['next_room'] = 'Você quer ir para a próxima sala?'
 lang_texts_pt['examine_do'] = 'O que você gostaria de examinar?'
@@ -359,7 +520,33 @@ lang_texts_pt['key for door a'] = 'chave para porta a'
 lang_texts_pt['key for door b'] = 'chave para porta b'
 lang_texts_pt['key for door c'] = 'chave para porta c'
 lang_texts_pt['key for door d'] = 'chave para porta d'
-
+lang_texts_pt['Question a'] = 'Qual era a nacionalidade de Colombo?'
+lang_texts_pt['Question b'] = 'Qual é o alimento mais consumido no mundo?'
+lang_texts_pt['Question c'] = 'Qual é o maior mamífero do mundo?'
+lang_texts_pt['Question d'] = 'O que pesa mais, 1 kg de água ou 1 kg de ferro?'
+lang_texts_pt['door blue'] = 'Puerta Azul'
+lang_texts_pt['door pink'] = 'Puerta Rosa'
+lang_texts_pt['door red'] = 'Puerta Vermelha'
+lang_texts_pt['door black'] = 'Puerta Preta'
+lang_texts_pt['door white'] = 'Puerta Branca'
+lang_texts_pt['ghost quiz'] = 'Teste Fantasma'
+lang_texts_pt['correct'] = 'Ok... Continue procurando a saída...'
+lang_texts_pt['failed'] = 'Você não vai escapar... nunca'
+lang_texts_pt['choose_door'] = 'Já que você falhou em suas respostas... é hora de escolher uma porta.'
+lang_texts_pt['correct_door'] = 'Parabéns! você pode viver outro dia'
+lang_texts_pt['wrong_door'] = 'É hora de ficar aqui... PARA SEMPRE!'
+lang_texts_pt['Spanish'] = 'Espanhol'
+lang_texts_pt['Italian'] = 'Italiano'
+lang_texts_pt['French'] = 'Francesa'
+lang_texts_pt['Potato'] = 'Batata'
+lang_texts_pt['Rice'] = 'Arroz'
+lang_texts_pt['Bread'] = 'Pão'
+lang_texts_pt['Whale'] = 'Baleia'
+lang_texts_pt['Elephant'] = 'Elefante'
+lang_texts_pt['Rhinoceros'] = 'Rinoceronte'
+lang_texts_pt['Water'] = 'Água'
+lang_texts_pt['Iron'] = 'Ferro'
+lang_texts_pt[''] = ''
 
 #Main Dictionary to choose which dictionary we will need
 
@@ -371,66 +558,7 @@ lang_game['it'] = ['italian',lang_texts_it]
 lang_game['pt'] = ['portuguese',lang_texts_pt]
 
 
-# In[4]:
-
-
-'''
-def ghost_quiz(key)
-
-    #Depending on the key, show a question. This can be done with dictionaries
-    #hard_scape change to here:
-    """
-    INIT_GAME_STATE = {
-        "language": 'en',
-        "hard_scape": 0
-        "current_room": game_room,
-        "keys_collected": [],
-        "target_room": outside
-        }
-    """
-    #and then use game_state["hard_scape"] instead of hard_scape
-    
-    hard_scape = 0
-
-    Question_a = print("What nationality was Columbus believed to be? a - Spanish b - Italian c - French")
-    Answer = input().lower()
-    if Answer == "a":
-      True
-      print("Right... Keep looking for the exit...")
-    else:
-      print("You wont scape... ever")
-      hard_scape += 1
-
-    Question_b = print("What is the most consumed food in the world? a - Potato b - Rice c - Bread")
-    Answer = input().lower()
-    if Answer == "b":
-      True
-      print("You can go... for now...")
-    else:
-      print("Nice try...")
-      hard_scape += 1
-
-    Question_c = print("what is the largest mammal in the world? a - Whale b - Elephant c - Rhinoceros")
-    Answer = input().lower()
-    if Answer =="a":
-      True
-      print("True...Who would thing a mammal can live underwater?...")
-    else:
-      print("You will not be allowed to go anywhere...")
-      hard_scape += 1
-
-    Question_d = print("What weighs more than 1 kg of water or 1kg of iron? a - water b - iron")
-    Answer = input().lower()
-    if Answer =="c":
-      True
-      print("Clever...")
-    else:
-      print("Hehehehe...")
-      hard_scape += 1
-'''
-
-
-# In[5]:
+# In[ ]:
 
 
 def selectFromDict(options, name=''):
@@ -467,7 +595,51 @@ def selectFromDict(options, name=''):
     return selected
 
 
-# In[6]:
+# In[ ]:
+
+
+def ghost_quiz(key):
+    """
+    Function to ask a question every time that find a key
+    Every fail increases the dificulty to escape     
+    """
+    answer = selectFromDict({value:key for key,value in object_relations[key['question']['name']][0].items()},lang_game[game_state["language"]][1][key['question']['name']])
+    
+    if answer == key['question']['correct answer']:
+        print(lang_game[game_state["language"]][1]['correct'])
+    else:
+      print(lang_game[game_state["language"]][1]['failed'])
+      game_state['hard_scape'] += 1
+        
+def ghost_doors():  
+    """
+    Function to give the chance to choose a door when failed any question
+
+    """
+    
+    if (game_state["hard_scape"]>0):
+        print(lang_game[game_state["language"]][1]['choose_door'])
+        
+        game_state['escape door'] = object_relations['Ghost Room'][random.randrange(game_state["hard_scape"]+1)]
+        
+        #print(game_state['escape door'])
+        
+        dict_escape_room = {}
+        for i in range(game_state["hard_scape"]+1):    
+            dict_escape_room[object_relations['Ghost Room'][i]['name']] = i        
+
+        if (game_state['escape door'] == object_relations['Ghost Room'][selectFromDict(dict_escape_room,'')]):
+            print(lang_game[game_state["language"]][1]['correct_door'])
+            play_sound('victory')
+        else:
+            print(lang_game[game_state["language"]][1]['wrong_door'])
+            play_sound('fail')
+    else:        
+        print(lang_game[game_state["language"]][1]['escape'])    
+        play_sound('victory')
+
+
+# In[ ]:
 
 
 def play_sound(sound):
@@ -480,10 +652,10 @@ def play_sound(sound):
     elif (sound == 'victory'):
         playsound(Path("sounds/Victory_sound.mp3"))
     elif (sound == 'fail'): 
-        playsound(Path("sounds/fail_sound_effect.mp3"))
+        playsound(Path("sounds/Fail_sound_effect.mp3"))
 
 
-# In[7]:
+# In[ ]:
 
 
 def show_room(room):
@@ -491,23 +663,23 @@ def show_room(room):
     Show an image related to the room
     """
     
-    if (room["name"].lower() == 'game room'):        
+    if (room["name"].lower() == game_room['name'].lower()):        
         img = Image.open(Path('images/Game_room.png'))
         img.show()
-    elif (room["name"].lower() == 'bed room 1'):
-        img = Image.open(r"Path('images/Bedroom_1.png')")
+    elif (room["name"].lower() == bedroom_1['name'].lower()):
+        img = Image.open(Path('images/Bedroom_1.png'))
         img.show()
-    elif (room["name"].lower() == 'bed room 2'):
-        img = Image.open(r"Path('images/Bedroom_2.png')")
+    elif (room["name"].lower() == bedroom_2['name'].lower()):
+        img = Image.open(Path('images/Bedroom_2.png'))
         img.show()
-    elif (room["name"].lower() == 'living room'):
-        img = Image.open(r"Path('images/Living_room.png')")
+    elif (room["name"].lower() == living_room['name'].lower()):
+        img = Image.open(Path('images/Living_room.png'))
         img.show()
     
            
 
 
-# In[8]:
+# In[ ]:
 
 
 def linebreak():
@@ -535,8 +707,7 @@ def start_game():
         play_room(game_state["current_room"])            
     
     if(game_state["current_room"] == game_state["target_room"]):
-        print(lang_game[game_state["language"]][1]['escape'])    
-        play_sound('victory')
+        ghost_doors()        
     
 def play_room(room):
     """
@@ -544,16 +715,11 @@ def play_room(room):
     If it is, the game will end with success. Otherwise, let player either 
     explore (list all items in this room) or examine an item found here.
     """
+     
+    show_room(room)
     
-    #game_state["current_room"] = room
-    #if(game_state["current_room"] == game_state["target_room"]):        
-    #    print(lang_game[game_state["language"]][1]['escape'])
-    
-    #else:   
     while game_state['current_room'] != game_state['target_room']:
-        print("\n")
-        
-        show_room(room)
+        linebreak()        
         
         print(lang_game[game_state["language"]][1]['in'] + lang_game[game_state["language"]][1][room["name"]]) 
 
@@ -615,7 +781,8 @@ def examine_item(item_name):
     
     for item in object_relations[current_room["name"]]:
         if(item["name"] == item_name):
-                        
+            key_found = False
+            
             output = lang_game[game_state["language"]][1]['you_examine'] + lang_game[game_state["language"]][1][item_name] + ". "
             
             if(item["type"] == "door"):
@@ -633,15 +800,23 @@ def examine_item(item_name):
             else:
                 if(item["name"] == 'piano'):
                     play_sound('piano')
-                    
+                
                 if(item["name"] in object_relations and len(object_relations[item["name"]])>0):
                     item_found = object_relations[item["name"]].pop()
                     game_state["keys_collected"].append(item_found)
-                                        
+                    
+                    key_found = True
+                    
                     output += lang_game[game_state["language"]][1]['find'] + lang_game[game_state["language"]][1][item_found["name"]] + "."
                 else:
                     output += lang_game[game_state["language"]][1]['nothing']
+                                
             print(output)
+            
+            if (key_found):                
+                print("\n" + lang_game[game_state["language"]][1]['ghost quiz'] + "\n")
+                ghost_quiz(item_found)
+                    
             break
 
     if(output is None):        
