@@ -313,8 +313,14 @@ lang_texts_en['door red'] = 'Door Red'
 lang_texts_en['door black'] = 'Door Black'
 lang_texts_en['door white'] = 'Door White'
 lang_texts_en['ghost quiz'] = 'Ghost Quiz'
-lang_texts_en['correct'] = 'Right... Keep looking for the exit...'
-lang_texts_en['failed'] = 'You wont scape... ever'
+lang_texts_en['Question a correct'] = 'Right... Keep looking for the exit...'
+lang_texts_en['Question a failed'] = 'You wont scape... ever'
+lang_texts_en['Question b correct'] = 'You can go... for now...'
+lang_texts_en['Question b failed'] = 'Nice try...'
+lang_texts_en['Question c correct'] = 'True...Who would think a mammal can live underwater?...'
+lang_texts_en['Question c failed'] = 'You will not be allowed to go anywhere...'
+lang_texts_en['Question d correct'] = 'Clever...'
+lang_texts_en['Question d failed'] = 'Hehehehe...'
 lang_texts_en['choose_door'] = 'As you failed in your answers... it is time to choose a door.'
 lang_texts_en['correct_door'] = 'Congratulations! You can live for one day more'
 lang_texts_en['wrong_door'] = 'Time to stay here... FOREVER!'
@@ -386,8 +392,14 @@ lang_texts_es['door red'] = 'Puerta Roja'
 lang_texts_es['door black'] = 'Puerta Negra'
 lang_texts_es['door white'] = 'Puerta Blanca'
 lang_texts_es['ghost quiz'] = 'Acertijo Fantasma'
-lang_texts_es['correct'] = 'Bien... Sigue buscando la salida...'
-lang_texts_es['failed'] = 'Tú no escaparás... nunca'
+lang_texts_es['Question a correct'] = 'Bien... Sigue buscando la salida...'
+lang_texts_es['Question a failed'] = 'Tú no escaparás... nunca'
+lang_texts_es['Question b correct'] = 'Puedes irte... por ahora...'
+lang_texts_es['Question b failed'] = 'Buen intento...'
+lang_texts_es['Question c correct'] = 'Cierto... ¿Quién pensaría que un mamífero puede vivir bajo el agua?...'
+lang_texts_es['Question c failed'] = 'No se te permitirá ir a ningún lado...'
+lang_texts_es['Question d correct'] = 'Inteligente...'
+lang_texts_es['Question d failed'] = 'Jejejeje...'
 lang_texts_es['choose_door'] = 'Como fallaste en tus respuestas... es hora de elegir una puerta.'
 lang_texts_es['correct_door'] = '¡Felicidades! Puedes vivir un día más'
 lang_texts_es['wrong_door'] = 'Es hora de quedarse aquí... ¡PARA SIEMPRE!'
@@ -448,21 +460,27 @@ lang_texts_it['key for door a'] = 'chiave per porta a'
 lang_texts_it['key for door b'] = 'chiave per porta b'
 lang_texts_it['key for door c'] = 'chiave per porta c'
 lang_texts_it['key for door d'] = 'chiave per porta d'
-lang_texts_it['Question a'] = '¿De qué nacionalidad se creía que era Colón?'
-lang_texts_it['Question b'] = '¿Cuál es el alimento más consumido en el mundo?'
-lang_texts_it['Question c'] = '¿Cuál es el mamífero más grande del mundo?'
-lang_texts_it['Question d'] = '¿Qué pesa más, 1 kg de agua o 1 kg de hierro?'
+lang_texts_it['Question a'] = 'Di quale nazionalità si credeva fosse Colombo?'
+lang_texts_it['Question b'] = 'Qual è il cibo più consumato al mondo?'
+lang_texts_it['Question c'] = 'Qual è il mammifero più grande del mondo?'
+lang_texts_it['Question d'] = 'Che pesa di più, 1 kg di acqua o 1 kg di ferro?'
 lang_texts_it['door blue'] = 'Porta Blu'
 lang_texts_it['door pink'] = 'Porta Rosa'
 lang_texts_it['door red'] = 'Porta Rossa'
 lang_texts_it['door black'] = 'Porta Nera'
 lang_texts_it['door white'] = 'Porta Bianca'
-lang_texts_it['ghost quiz'] = 'Acertijo Fantasma'
-lang_texts_it['correct'] = 'Bien... Sigue buscando la salida...'
-lang_texts_it['failed'] = 'Tú no escaparás... nunca'
-lang_texts_it['choose_door'] = 'Como fallaste en tus respuestas... es hora de elegir una puerta.'
-lang_texts_it['correct_door'] = '¡Felicidades! Puedes vivir un día más'
-lang_texts_it['wrong_door'] = 'Es hora de quedarse aquí... ¡PARA SIEMPRE!'
+lang_texts_it['ghost quiz'] = "L'enigma dei fantasmi"
+lang_texts_it['Question a correct'] = "Bene... Continua a cercare l'uscita..."
+lang_texts_it['Question a failed'] = 'Non fuggirai... mai'
+lang_texts_it['Question b correct'] = 'Puoi andare... per ora...'
+lang_texts_it['Question b failed'] = 'Bel tentativo...'
+lang_texts_it['Question c correct'] = "Vero...Chi penserebbe che un mammifero possa vivere sott'acqua?..."
+lang_texts_it['Question c failed'] = 'Non ti sarà permesso andare da nessuna parte...'
+lang_texts_it['Question d correct'] = 'Intelligente...'
+lang_texts_it['Question d failed'] = 'ehehehehe...'
+lang_texts_it['choose_door'] = 'Dal momento che hai fallito le tue risposte... è ora di scegliere una porta.'
+lang_texts_it['correct_door'] = 'Congratulazioni! puoi vivere un altro giorno'
+lang_texts_it['wrong_door'] = 'È ora di restare qui... PER SEMPRE!'
 lang_texts_it['Spanish'] = 'Spagnolo'
 lang_texts_it['Italian'] = 'Italiano'
 lang_texts_it['French'] = 'Francese'
@@ -530,8 +548,14 @@ lang_texts_pt['door red'] = 'Puerta Vermelha'
 lang_texts_pt['door black'] = 'Puerta Preta'
 lang_texts_pt['door white'] = 'Puerta Branca'
 lang_texts_pt['ghost quiz'] = 'Teste Fantasma'
-lang_texts_pt['correct'] = 'Ok... Continue procurando a saída...'
-lang_texts_pt['failed'] = 'Você não vai escapar... nunca'
+lang_texts_pt['Question a correct'] = 'Ok... Continue procurando a saída...'
+lang_texts_pt['Question a failed'] = 'Você não vai escapar... nunca'
+lang_texts_pt['Question b correct'] = 'Você pode ir... por enquanto...'
+lang_texts_pt['Question b failed'] = 'Boa tentativa...'
+lang_texts_pt['Question c correct'] = "Certo... Quem pensaria que um mamífero poderia viver debaixo d'água?..."
+lang_texts_pt['Question c failed'] = 'Você não poderá ir a lugar nenhum...'
+lang_texts_pt['Question d correct'] = 'Inteligente...'
+lang_texts_pt['Question d failed'] = 'Hehehehe...'
 lang_texts_pt['choose_door'] = 'Já que você falhou em suas respostas... é hora de escolher uma porta.'
 lang_texts_pt['correct_door'] = 'Parabéns! você pode viver outro dia'
 lang_texts_pt['wrong_door'] = 'É hora de ficar aqui... PARA SEMPRE!'
@@ -606,9 +630,9 @@ def ghost_quiz(key):
     answer = selectFromDict({value:key for key,value in object_relations[key['question']['name']][0].items()},lang_game[game_state["language"]][1][key['question']['name']])
     
     if answer == key['question']['correct answer']:
-        print(lang_game[game_state["language"]][1]['correct'])
+        print(lang_game[game_state["language"]][1][key['question']['name'] + ' correct'])
     else:
-      print(lang_game[game_state["language"]][1]['failed'])
+      print(lang_game[game_state["language"]][1][key['question']['name'] + ' failed'])
       game_state['hard_scape'] += 1
         
 def ghost_doors():  
@@ -619,14 +643,15 @@ def ghost_doors():
     
     if (game_state["hard_scape"]>0):
         print(lang_game[game_state["language"]][1]['choose_door'])
-        
+
         game_state['escape door'] = object_relations['Ghost Room'][random.randrange(game_state["hard_scape"]+1)]
         
+        #Test for the escape door
         #print(game_state['escape door'])
-        
+
         dict_escape_room = {}
         for i in range(game_state["hard_scape"]+1):    
-            dict_escape_room[object_relations['Ghost Room'][i]['name']] = i        
+            dict_escape_room[lang_game[game_state["language"]][1][object_relations['Ghost Room'][i]['name']]] = i               
 
         if (game_state['escape door'] == object_relations['Ghost Room'][selectFromDict(dict_escape_room,'')]):
             print(lang_game[game_state["language"]][1]['correct_door'])
@@ -839,10 +864,4 @@ def examine_item(item_name):
 game_state = INIT_GAME_STATE.copy()
 
 start_game()
-
-
-# In[ ]:
-
-
-
 
