@@ -542,11 +542,11 @@ lang_texts_pt['Question a'] = 'Qual era a nacionalidade de Colombo?'
 lang_texts_pt['Question b'] = 'Qual é o alimento mais consumido no mundo?'
 lang_texts_pt['Question c'] = 'Qual é o maior mamífero do mundo?'
 lang_texts_pt['Question d'] = 'O que pesa mais, 1 kg de água ou 1 kg de ferro?'
-lang_texts_pt['door blue'] = 'Puerta Azul'
-lang_texts_pt['door pink'] = 'Puerta Rosa'
-lang_texts_pt['door red'] = 'Puerta Vermelha'
-lang_texts_pt['door black'] = 'Puerta Preta'
-lang_texts_pt['door white'] = 'Puerta Branca'
+lang_texts_pt['door blue'] = 'Porta Azul'
+lang_texts_pt['door pink'] = 'Porta Rosa'
+lang_texts_pt['door red'] = 'Porta Vermelha'
+lang_texts_pt['door black'] = 'Porta Preta'
+lang_texts_pt['door white'] = 'Porta Branca'
 lang_texts_pt['ghost quiz'] = 'Teste Fantasma'
 lang_texts_pt['Question a correct'] = 'Ok... Continue procurando a saída...'
 lang_texts_pt['Question a failed'] = 'Você não vai escapar... nunca'
@@ -627,7 +627,7 @@ def ghost_quiz(key):
     Function to ask a question every time that find a key
     Every fail increases the dificulty to escape     
     """
-    answer = selectFromDict({value:key for key,value in object_relations[key['question']['name']][0].items()},lang_game[game_state["language"]][1][key['question']['name']])
+    answer = selectFromDict({lang_game[game_state["language"]][1][value]:key for key,value in object_relations[key['question']['name']][0].items()},lang_game[game_state["language"]][1][key['question']['name']])
     
     if answer == key['question']['correct answer']:
         print(lang_game[game_state["language"]][1][key['question']['name'] + ' correct'])
